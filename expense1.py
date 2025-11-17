@@ -45,7 +45,35 @@ def calculate_totals():
             for cat,total in totals.items():
                 print(f'{cat}: KES{total}')
                 print(f"Overall total: KES {grand_total} \n")
+def edit_expense():
+    while True:
+        cat1 = input("Enter Category: ").strip().capitalize()
+        with open(File_name,'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                cat = row["Category"]
+                if cat1.strip().lower() != cat.strip().lower():
+                    print("True")
+                    print(f"Found {cat1}")
+                    break   
+                else:
+                    print("Category could not be found,please try again.")
+        
+        category = input("Enter category:")
+        description = input("Enter description:")
+        amount = float(input("Enter amount"))
+        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(File_name,"a") as file:
+            writer = csv.writer(file)
+            writer.writerow([date , category , description , amount])
+            print("Expense edited succesfully ✅")
 
+        rept = input("Would you like to continue editing the list: ").strip().lower()
+        if rept == "yes" or rept[0] == "y":
+            break
+        else:
+            continue
+            
 def main():
     initialize_file()
     while True:
